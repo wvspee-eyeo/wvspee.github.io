@@ -6,18 +6,35 @@
 .moep1 { color:red; }
 -->
     </style>
+    <link rel="stylesheet" type="text/css">
   </head>
   <body>
     <div class='moep1'>moep</div>
     <div class='moep2'>moep</div>
-    <a href='#' id='no_load'>add style (no load)</a>
+    <a href='#' id='no_load'>change styles by using replace (no load, but load in ff)</a>
     <br />
-    <a href='#' id='load'>add style (load)</a>
+    <a href='#' id='load'>add style tag (load)</a>
+    <br />
+    <a href='#' id='insert_rule'>change style via insertRule (no load)</a>
+    <br />
+    <a href='#' id='add_rule'>change style via addRule (no load)</a>
+    <br />
+    <a href='#' id='add_rule_no_index'>change style via addRule no index (no load)</a>
+    <br />
+    <a href='#' id='add_link'>add link tag (load)</a>
+    <br />
+    <a href='#' id='change_link'>change link tag (load)</a>
+    <br />
+    <a href='#' id='style_import_replace'>add styles via @import using replace (no load)</a>
+    <br />
+    <a href='#' id='style_import_insert_rule'>add styles via @import using insertRule (no load)</a>
   </body>
 </html>
 
 <script>
 <!--
+'use strict'
+
 document.getElementById('no_load').addEventListener('click', function(even) {
   document.getElementsByTagName('style')[0].textContent =
     document.getElementsByTagName('style')[0].textContent.replace(
@@ -27,6 +44,37 @@ document.getElementById('no_load').addEventListener('click', function(even) {
 document.getElementById('load').addEventListener('click', function(even) {
   document.getElementsByTagName('head')[0].insertAdjacentHTML(
       'beforeend', '<style>\n<!--\n.moep2 { color:red; }\n-->\n</style>');
+});
+
+document.getElementById('insert_rule').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].sheet.insertRule('.moep2 { color:red; }', 0);
+});
+
+document.getElementById('add_rule').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].sheet.addRule('.moep2', 'color:red;', 0);
+});
+
+document.getElementById('add_rule_no_index').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].sheet.addRule('.moep2', 'color:red;');
+});
+
+document.getElementById('add_link').addEventListener('click', function(even) {
+  document.getElementsByTagName('head')[0].insertAdjacentHTML(
+      'beforeend', '<link rel="stylesheet" type="text/css" href="4390_load_chrome.css?' + Math.random() +'">');
+});
+
+document.getElementById('change_link').addEventListener('click', function(even) {
+  document.getElementsByTagName('link')[0].href = "4390_load_chrome.css?" + Math.random();
+});
+
+document.getElementById('style_import_replace').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].textContent =
+    document.getElementsByTagName('style')[0].textContent.replace(
+        /<!--/, '<!--\n@import url("4390_load_chrome.css?' + Math.random() +'");');
+});
+
+document.getElementById('style_import_insert_rule').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].sheet.insertRule('@import url("4390_load_chrome.css?' + Math.random() +'");', 0);
 });
 
 document.addEventListener("load", function() { console.log('load'); }, true);
