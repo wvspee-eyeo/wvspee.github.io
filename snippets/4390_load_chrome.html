@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>foo</title>
+    <style>
+<!--
+.moep1 { color:red; }
+-->
+    </style>
+  </head>
+  <body>
+    <div class='moep1'>moep</div>
+    <div class='moep2'>moep</div>
+    <a href='#' id='no_load'>add style (no load)</a>
+    <br />
+    <a href='#' id='load'>add style (load)</a>
+  </body>
+</html>
+
+<script>
+<!--
+document.getElementById('no_load').addEventListener('click', function(even) {
+  document.getElementsByTagName('style')[0].textContent =
+    document.getElementsByTagName('style')[0].textContent.replace(
+        /-->/, '.moep2 { color:red; }\n-->');
+});
+
+document.getElementById('load').addEventListener('click', function(even) {
+  document.getElementsByTagName('head')[0].insertAdjacentHTML(
+      'beforeend', '<style>\n<!--\n.moep2 { color:red; }\n-->\n</style>');
+});
+
+document.addEventListener("load", function() { console.log('load'); }, true);
+-->
+</script>
